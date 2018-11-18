@@ -1,0 +1,75 @@
+﻿@model Birdy.Models.CategoryViewModels.CategoryAndCategoryGroupViewModel
+@using Birdy.Extensions
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h2>Rubrik erstellen</h2>
+<br />
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<hr />
+
+
+<div class="row">
+    <div class="col-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Category.Name" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Category.Name" class="form-control" />
+                </div>
+                <span asp-validation-for="Category.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Category.CategoryGroupId" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="Category.CategoryGroupId" asp-items="Model.CategoryGroupList.ToSelectListItem(Model.Category.CategoryGroupId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="isNew" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="isNew" class="form-control" />
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group row">
+                <div class="col-3"></div>
+                <div class="col-5">
+                    <input type="submit" value="Erstellen" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--Liste mit vorhandenen Rubriken anzeigen-->
+    <div class="col-4">
+        @if(Model.CategoryList.Count() > 0)
+        {
+            <p>Vorhandene Rubriken</p>
+            <ul class="list-group">
+                @foreach(var item in Model.CategoryList)
+                {
+                    <li class="list-group-item">@item</li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
